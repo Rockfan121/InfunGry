@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Towers of Hanoi</title>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+        <script>
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/hanoi/config', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                var json = xhr.responseText;
+                obj = JSON.parse(json);
+                window.alert('group = ' + obj['group']);
+                window.alert('nick = ' + obj['nick']);
+                window.alert('age = ' + obj['age']);
+            }
+        }
+        xhr.send(null);
+
+        function someFun() {
+            window.alert('here1');
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/game/end', true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify({result: 0.57, group: "1", nick: "john", age: 5}));
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    window.alert(xhr.responseText);
+                    window.location.replace(xhr.responseText);
+                }
+            }
+            window.alert('here2');
+        }
+
+
+        <!--setTimeout(function(){-->
+            <!--myFunction();-->
+        <!--}, 1000);-->
+    </script>
+    
+    <link rel="stylesheet" type="text/css" href="css/hanoi/css/style.css">
+  </head>
+  <body>
+    <script src="js/hanoi/js/jquery.js"></script>
+    <script src="js/hanoi/js/jquery-ui.js"></script>
+    <script src="js/hanoi/js/jquery-ui.min.js"></script>
+    <script src="js/hanoi/js/jquery-2.1.1.js"></script>
+    <script src="js/hanoi/js/hanoi-core.js"></script>
+    <script src="js/hanoi/js/hanoi-view.js"></script>
+
+    <div class="towers">
+    </div>
+    <script>
+      var game = new Hanoi.Game();
+      var $gameDiv = $('.towers');
+      new Hanoi.View(game, $gameDiv);
+    </script>
+    <button onclick="someFun()">End Game</button>
+  </body>
+</html>
