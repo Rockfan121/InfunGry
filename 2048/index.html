@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>2048</title>
 
-  <link href="css/2048/css/main.css" rel="stylesheet" type="text/css">
+  <link href="css/main.css" rel="stylesheet" type="text/css">
   <link rel="shortcut icon" href="https://gabrielecirulli.github.io/2048/favicon.ico">
   <link rel="apple-touch-icon" href="https://gabrielecirulli.github.io/2048/meta/apple-touch-icon.png">
   <link rel="apple-touch-startup-image" href="https://gabrielecirulli.github.io/2048/meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
@@ -40,41 +40,57 @@
   <meta name="twitter:app:name:googleplay" content="2048">
   <meta name="twitter:app:id:googleplay" content="com.gabrielecirulli.app2048">
   <meta name="twitter:app:url:googleplay" content="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048">
-<script type="text/javascript" charset="utf-8" async="" src="js/2048/js/button.js"></script>
+<script type="text/javascript" charset="utf-8" async="" src="js/button.js"></script>
 
     <script>
+        var movesLeft;
+        movesLeft = 100;
+
+
+        var group, nick, age;
+
+        var max_score;
+        max_score = 1200.0;
+
+
+
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/2048/config', true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 var json = xhr.responseText;
                 obj = JSON.parse(json);
+                group = obj['group'];
+                nick = obj['nick'];
+                age = obj['age'];
                 //window.alert('group = ' + obj['group']);
                 //window.alert('nick = ' + obj['nick']);
                 //window.alert('age = ' + obj['age']);
+                if(age != null) {
+                  if (age > 1 && age <= 7) max_score -= 500;
+                  if (age > 7 && age <= 10) max_score -= 400;
+                  if (age > 10 && age <= 12) max_score -= 300;
+                  if (age > 12 && age <= 14) max_score -= 200;
+                  if (age > 14 && age <= 16) max_score -= 100;
+                }
             }
         }
         xhr.send(null);
 
-        function onFinished() {
+        function onFinished(score) {
             //window.alert('here1');
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/game/end', true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.send(JSON.stringify({result: 0.57, group: "1", nick: "john", age: 5}));
+            xhr.send(JSON.stringify({result: score, group: group, nick: nick, age: age}));
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    window.alert(xhr.responseText);
+                    //window.alert(JSON.stringify({result: score, group: group, nick: nick, age: age}));
                     window.location.replace(xhr.responseText);
                 }
             }
             //window.alert('here2');
         }
-
-
-        <!--setTimeout(function(){-->
-            <!--myFunction();-->
-        <!--}, 1000);-->
     </script>
 
 </head>
@@ -84,40 +100,20 @@
       <h1 class="title">2048</h1>
       <div class="scores-container">
         <div class="score-container">0</div>
-        <div class="best-container">2184</div>
+        <div class="best-container"></div>
       </div>
     </div>
 
-    <div class="above-game">
+    <!-- <div class="above-game">
       <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
-      <a class="restart-button">New Game</a>
-    </div>
+      <a class="restart-button">New Game</a> -->
+    <!-- </div> -->
 
-    
+
 
     <div class="game-container">
       <div class="game-message">
         <p></p>
-        <div class="lower">
-	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
-          <div class="score-sharing"></div>
-          <div class="mailing-list">
-            <!-- MailChimp Signup Form -->
-            <form action="http://gabrielecirulli.us8.list-manage.com/subscribe/post?u=991201206817cfb4e4247ed6c&amp;id=7928ea817b" method="post" name="mc-embedded-subscribe-form" class="mailing-list-form" target="_blank">
-              <strong>Get email updates from Gabriele</strong>
-
-              <input name="EMAIL" class="mailing-list-email-field" placeholder="Your email address" spellcheck="false" type="email">
-
-              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-              <div style="position: absolute; left: -9999px;">
-                <input name="b_991201206817cfb4e4247ed6c_7928ea817b" type="text">
-              </div>
-
-              <input value="Go" name="subscribe" class="mailing-list-subscribe-button" type="submit">
-            </form>
-          </div>
-        </div>
       </div>
 
       <div class="grid-container">
@@ -150,49 +146,48 @@
       <div class="tile-container"><div class="tile tile-2 tile-position-1-4 tile-new"><div class="tile-inner">2</div></div><div class="tile tile-2 tile-position-4-1 tile-new"><div class="tile-inner">2</div></div></div>
     </div>
 
-    <p class="game-explanation">
-      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+    <p class="max-score">
     </p>
-    <hr>
-    <p>
+    <!-- <hr> -->
+    <!-- <p>
     <strong class="important">Note:</strong> The game on <a href="http://git.io/2048">this site</a> is the original version of 2048. Apps for <a href="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048" target="_blank">Android</a> are also available. Other versions are derivatives or fakes, and should be used with caution.
     </p>
     <hr>
     <p>
     Created by <a href="http://gabrielecirulli.com/" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a href="http://asherv.com/threes/" target="_blank">Threes by Asher Vollmer.</a>
-    </p>
-    <div class="sharing">
+    </p> -->
+    <!-- <div class="sharing">
       <iframe id="twitter-widget-0" scrolling="no" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" src="2048_
 /tweet_button.htm" data-url="http://git.io/2048" frameborder="0"></iframe>
-      <script async="" src="js/2048/js/analytics.js"></script><script id="twitter-wjs" src="js/2048/js/widgets.js"></script><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      <script async="" src="js/analytics.js"></script><script id="twitter-wjs" src="js/widgets.js"></script><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
       <form class="pp-donate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
         <input name="cmd" value="_s-xclick" type="hidden">
         <input name="hosted_button_id" value="NVNPJLTBZ8AME" type="hidden">
-        <button name="submit"><img src="img/2048/img/icon_pp.svg">Donate</button>
-        <img alt="" src="img/2048/img/pixel.gif" style="display: none !important;" width="1" hidden="" height="1" border="0">
+        <button name="submit"><img src="img/icon_pp.svg">Donate</button>
+        <img alt="" src="img/pixel.gif" style="display: none !important;" width="1" hidden="" height="1" border="0">
       </form>
 
       <span class="btc-donate">
         <a href="bitcoin:1Ec6onfsQmoP9kkL3zkpB6c5sA4PVcXU2i">
-          <img src="img/2048/img/icon_bitcoin.svg">Donate BTC
+          <img src="img/icon_bitcoin.svg">Donate BTC
         </a>
         <span class="address"><code>1Ec6onfsQmoP9kkL3zkpB6c5sA4PVcXU2i</code></span>
       </span>
 
-    </div>
+    </div> -->
   </div>
 
-  <script src="js/2048/js/bind_polyfill.js"></script>
-  <script src="js/2048/js/classlist_polyfill.js"></script>
-  <script src="js/2048/js/animframe_polyfill.js"></script>
-  <script src="js/2048/js/keyboard_input_manager.js"></script>
-  <script src="js/2048/js/html_actuator.js"></script>
-  <script src="js/2048/js/grid.js"></script>
-  <script src="js/2048/js/tile.js"></script>
-  <script src="js/2048/js/local_storage_manager.js"></script>
-  <script src="js/2048/js/game_manager.js"></script>
-  <script src="js/2048/js/application.js"></script>
+  <script src="js/bind_polyfill.js"></script>
+  <script src="js/classlist_polyfill.js"></script>
+  <script src="js/animframe_polyfill.js"></script>
+  <script src="js/keyboard_input_manager.js"></script>
+  <script src="js/html_actuator.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/tile.js"></script>
+  <script src="js/local_storage_manager.js"></script>
+  <script src="js/game_manager.js"></script>
+  <script src="js/application.js"></script>
 
   <script>
     (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){

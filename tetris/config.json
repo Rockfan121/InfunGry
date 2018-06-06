@@ -1,3 +1,10 @@
 {
-	"name": "tetris"
+	"name": "tetris",
+	"config": [
+		{
+			"name": "max_score",
+			"default": "999",
+			"required": true
+		}
+	]
 }

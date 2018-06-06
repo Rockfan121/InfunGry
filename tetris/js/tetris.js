@@ -45,9 +45,9 @@ var tetris = {
   // speed
   fall_timeout: null,
   stationary: false,
-  init_speed: 600,
+  init_speed: 200,
   max_speed_mode: false,
-  max_speed: 50,
+  max_speed: 10,
   speed: 0,
 
   // counters
@@ -318,11 +318,11 @@ var tetris = {
     tetris.watch_keys();
     tetris.watch_touch();
 
-    var local_best_score_tetris = localStorage.getItem('best_score_tetris');
-    if (local_best_score_tetris != null) {
-      tetris.best_score_tetris = local_best_score_tetris;
-    }
-    tetris.best_zone.innerHTML = tetris.best_score_tetris;
+    // var local_best_score_tetris = localStorage.getItem('best_score_tetris');
+    // if (local_best_score_tetris != null) {
+    //   tetris.best_score_tetris = local_best_score_tetris;
+    // }
+    tetris.best_zone.innerHTML = max_score;
 
 
 
@@ -341,19 +341,28 @@ var tetris = {
       e.preventDefault();
       tetris.show_game();
     });
-    document.getElementById('bt_pause').addEventListener('click', function(e) {
-      e.preventDefault();
-      if (tetris.state == 'game') {
-        tetris.pause_game();
-      } else {
-        if (tetris.state == 'pause') {
-          tetris.resume_game();
-        }
-      }
-    });
+    // document.getElementById('bt_pause').addEventListener('click', function(e) {
+    //   e.preventDefault();
+    //   if (tetris.state == 'game') {
+    //     tetris.pause_game();
+    //   } else {
+    //     if (tetris.state == 'pause') {
+    //       tetris.resume_game();
+    //     }
+    //   }
+    // });
 
     // set default mapping
     tetris.set_mapping('a');
+
+    if(age != null) {
+      if (age > 1 && age <= 7) tetris.init_speed += 300;
+      if (age > 7 && age <= 10) tetris.init_speed += 200;
+      if (age > 10 && age <= 12) tetris.init_speed += 150;
+      if (age > 12 && age <= 14) tetris.init_speed += 100;
+      if (age > 14 && age <= 16) tetris.init_speed += 50;
+    }
+
 
     tetris.show_home();
   },
@@ -685,23 +694,23 @@ var tetris = {
   pause_game: function () {
     tetris.state = 'pause';
     clearTimeout(tetris.fall_timeout);
-    var html = '<h2>Game paused</h2>';
-    html += '<a class="button" id="bt_resume">Resume</a>';
-    html += '<a class="button" id="bt_play_again">New game</a>';
-    html += '<a class="button" id="bt_main_menu">Main menu</a>';
-    html += '<a class="button" target="_blank" href="http://www.baptistebrunet.com/games/">Play more games</a>';
+    // var html = '<h2>Game paused</h2>';
+    // html += '<a class="button" id="bt_resume">Resume</a>';
+    // html += '<a class="button" id="bt_play_again">New game</a>';
+    // html += '<a class="button" id="bt_main_menu">Main menu</a>';
+    // html += '<a class="button" target="_blank" href="http://www.baptistebrunet.com/games/">Play more games</a>';
     tetris.overlay.innerHTML = html;
     tetris.overlay.style.display = 'block';
 
-    document.getElementById('bt_resume').addEventListener('click', function() {
-      tetris.resume_game();
-    });
-    document.getElementById('bt_play_again').addEventListener('click', function() {
-      tetris.init_game();
-    });
-    document.getElementById('bt_main_menu').addEventListener('click', function() {
-      tetris.show_home();
-    });
+    //document.getElementById('bt_resume').addEventListener('click', function() {
+    //  tetris.resume_game();
+    //});
+    //document.getElementById('bt_play_again').addEventListener('click', function() {
+    //  tetris.init_game();
+    //});
+    //document.getElementById('bt_main_menu').addEventListener('click', function() {
+    //  tetris.show_home();
+    //});
   },
 
   resume_game: function () {
@@ -713,31 +722,31 @@ var tetris = {
   game_over: function () {
     tetris.state = 'game_over';
 
-    if (tetris.score > tetris.best_score_tetris) {
-      tetris.best_score_tetris = tetris.score;
-      localStorage.setItem('best_score_tetris', tetris.best_score_tetris);
-      tetris.best_zone.innerHTML = tetris.best_score_tetris;
-    }
+    // if (tetris.score > tetris.best_score_tetris) {
+    //   tetris.best_score_tetris = tetris.score;
+    //   localStorage.setItem('best_score_tetris', tetris.best_score_tetris);
+    //   tetris.best_zone.innerHTML = tetris.best_score_tetris;
+    // }
 
     var html = '<h2>Game Over</h2>';
     html += '<div class="overview">';
     html += '<div class="points"><div class="nb_points">' + tetris.score + '</div> points</div>';
     html += '<div class="lines"><div class="nb_lines">' + tetris.lines + '</div> lines</div>';
     html += '</div>';
-    html += '<a class="button" id="bt_play_again">Play again</a>';
-    html += '<a class="button" id="bt_main_menu">Main menu</a>';
-    html += '<a class="button" target="_blank" href="http://www.baptistebrunet.com/games/">Play more games</a>';
+    // html += '<a class="button" id="bt_play_again">Play again</a>';
+    // html += '<a class="button" id="bt_main_menu">Main menu</a>';
+    // html += '<a class="button" target="_blank" href="http://www.baptistebrunet.com/games/">Play more games</a>';
     tetris.overlay.innerHTML = html;
     tetris.overlay.style.display = 'block';
 
-    document.getElementById('bt_play_again').addEventListener('click', function() {
-      tetris.init_game();
-    });
-    document.getElementById('bt_main_menu').addEventListener('click', function() {
-      tetris.show_home();
-    });
-	
-	onFinished();
+    // document.getElementById('bt_play_again').addEventListener('click', function() {
+    //   tetris.init_game();
+    // });
+    // document.getElementById('bt_main_menu').addEventListener('click', function() {
+    //   tetris.show_home();
+    // });
+
+	   onFinished((tetris.score/max_score) < 1 ? tetris.score/max_score : 1);
   },
 
   fall_block: function () {
@@ -766,6 +775,10 @@ var tetris = {
         }, 300);
       }
     };
+
+    if(tetris.score > max_score) {
+      tetris.game_over();
+    }
   },
 
   test_position: function (block, pos, x, y) {

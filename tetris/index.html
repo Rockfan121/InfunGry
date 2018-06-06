@@ -4,40 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Tetris JS</title>
-  <link rel="stylesheet" href="css/tetris/css/styles.css">
+  <link rel="stylesheet" href="css/styles.css">
     <script>
+        var group, nick, age;
+        var max_score;
+        max_score = 1000.0;
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/hanoi/config', true);
+        xhr.open('GET', '/tetris/config', true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 var json = xhr.responseText;
                 obj = JSON.parse(json);
+				console.log(json);
+                group = obj['group'];
+                nick = obj['nick'];
+                age = obj['age'];
                 //window.alert('group = ' + obj['group']);
                 //window.alert('nick = ' + obj['nick']);
                 //window.alert('age = ' + obj['age']);
+				max_score = parseInt(obj['config'].max_score);
             }
         }
         xhr.send(null);
 
-        function onFinished() {
+        function onFinished(score) {
             //window.alert('here1');
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/game/end', true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.send(JSON.stringify({result: 0.57, group: "1", nick: "john", age: 5}));
+            xhr.send(JSON.stringify({result: score, group: group, nick: nick, age: age}));
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    window.alert(xhr.responseText);
+                    //window.alert(JSON.stringify({result: score, group: group, nick: nick, age: age}));
                     window.location.replace(xhr.responseText);
                 }
             }
             //window.alert('here2');
         }
-
-
-        <!--setTimeout(function(){-->
-            <!--myFunction();-->
-        <!--}, 1000);-->
     </script>
 </head>
 <body>
@@ -52,7 +55,6 @@
         <label for="bt_type_b" class="">Up = drop</label>
       </div>
       <div class="touch_controls">
-        <p>Swipe <strong>anywhere</strong> on the screen to play</p>
         <p>Tap to rotate</p>
         <p>Swipe down to drop</p>
       </div>
@@ -64,13 +66,13 @@
         <div class="messages_wrapper">
           <div id="messages"></div>
         </div>
-        <div id="overlay" style="display: block;"><h2>Game Over</h2><div class="overview"><div class="points"><div class="nb_points">0</div> points</div><div class="lines"><div class="nb_lines">0</div> lines</div></div><a class="button" id="bt_play_again">Play again</a><a class="button" id="bt_main_menu">Main menu</a></div>
+        <div id="overlay" style="display: block;"><h2></h2><div class="overview"><div class="points"><div class="nb_points">0</div> points</div><div class="lines"><div class="nb_lines">0</div> lines</div></div><a class="button" id="bt_play_again"></a><a class="button" id="bt_main_menu"></a></div>
       </div>
       <div id="infos">
         <div id="next_zone" style="width: 134.4px; height: 134.4px;"><div style="position: relative; display: inline-block; width: 134.4px; height: 134.4px;" class="kineticjs-content"><canvas style="padding: 0px; margin: 0px; border: 0px none; background: transparent none repeat scroll 0% 0%; position: absolute; top: 0px; left: 0px; width: 134.4px; height: 134.4px;" width="336" height="336"></canvas></div></div>
-        <a class="button" href="#_" id="bt_pause">Pause</a>
+        <!-- <a class="button" href="#_" id="bt_pause">Pause</a> -->
         <div class="best_wrapper">
-          Best: <span id="best_zone">0</span>
+          Max score: <span id="best_zone"></span>
         </div>
         <div id="score_zone">0</div>
         <div class="lines_wrapper">
@@ -89,12 +91,12 @@
     </div>
   <![endif]-->
 
-  <div id="ad">
-    <script type="text/javascript" async="" src="js/tetris/js/ga.js"></script><script type="text/javascript" src="show_app_ad.htm"></script>
-  </div>
+  <!-- <div id="ad">
+    <script type="text/javascript" async="" src="js/ga.js"></script><script type="text/javascript" src="show_app_ad.htm"></script>
+  </div> -->
 
-  <script type="text/javascript" src="js/tetris/js/kinetic-v4.js"></script>
-  <script type="text/javascript" src="js/tetris/js/tetris.js"></script>
+  <script type="text/javascript" src="js/kinetic-v4.js"></script>
+  <script type="text/javascript" src="js/tetris.js"></script>
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-20127424-1']);

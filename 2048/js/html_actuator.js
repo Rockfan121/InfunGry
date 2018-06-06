@@ -11,6 +11,10 @@ function HTMLActuator() {
 HTMLActuator.prototype.actuate = function (grid, metadata) {
   var self = this;
 
+  document.querySelector(".best-container").textContent = movesLeft;
+  document.querySelector(".max-score").textContent = "Max score: ".concat(max_score);
+  movesLeft -= 1;
+
   window.requestAnimationFrame(function () {
     self.clearContainer(self.tileContainer);
 
@@ -23,7 +27,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     });
 
     self.updateScore(metadata.score);
-    self.updateBestScore(metadata.bestScore);
+    //self.updateBestScore(metadata.bestScore);
 
     if (metadata.terminated) {
       if (metadata.over) {
