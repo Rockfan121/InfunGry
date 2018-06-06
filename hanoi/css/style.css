@@ -2,9 +2,12 @@
   float: left;
   width: 200px;
   height: 200px;
-  background: #000;
+  background: #ffff66;
   margin: 10px;
   transform: rotate(180deg);
+  border-style: dotted;
+  border-width: 3px;
+  border-color: #336600;
 }
 
 .towers:after {
@@ -15,7 +18,7 @@
 
 .disk {
   height: 20px;
-  background: #fff;
+  background: #336600;
   margin: 10px;
   margin-left: auto;
   margin-right: auto;
@@ -23,7 +26,7 @@
 
 .h-disk {
   height: 20px;
-  background: fuchsia;
+  background: #ff6600;
   margin: 10px;
   margin-left: auto;
   margin-right: auto;

@@ -14,13 +14,13 @@ Game.prototype.isValidMove = function (startTowerIdx, endTowerIdx) {
   } else {
     var topStartDisc = startTower[startTower.length - 1];
     var topEndDisc = endTower[endTower.length - 1];
-    return topStartDisc < topEndDisc;
+    return topStartDisc <= topEndDisc;
   }
 };
 
 Game.prototype.isWon = function () {
   // move all the discs to the last or second tower
-  return (this.towers[2].length == 3) || (this.towers[1].length == 3);
+  return (this.towers[2].length == 3);
 };
 
 Game.prototype.move = function (startTowerIdx, endTowerIdx) {

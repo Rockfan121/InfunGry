@@ -2,17 +2,20 @@
 <html>
   <head>
     <title>Towers of Hanoi</title>
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <!-- default header name is X-CSRF-TOKEN -->
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
         <script>
 
         var xhr = new XMLHttpRequest();
+         var vNick = '';
+        var vAge = 3;
+        var vGroup = ''
         xhr.open('GET', '/hanoi/config', true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 var json = xhr.responseText;
                 obj = JSON.parse(json);
+                vNick = obj['nick']
+                vAge = obj['age']
+                vGroup = obj['group']
                 window.alert('group = ' + obj['group']);
                 window.alert('nick = ' + obj['nick']);
                 window.alert('age = ' + obj['age']);
@@ -23,9 +26,9 @@
         function someFun() {
             window.alert('here1');
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/game/end', true);
+            xhr.open('POST', '/hanoi/end', true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.send(JSON.stringify({result: 0.57, group: "1", nick: "john", age: 5}));
+            xhr.send(JSON.stringify({result: 0.57, group: vGroup, nick: vNick, age: vAge}));
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     window.alert(xhr.responseText);
@@ -41,15 +44,15 @@
         <!--}, 1000);-->
     </script>
     
-    <link rel="stylesheet" type="text/css" href="css/hanoi/css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
   </head>
   <body>
-    <script src="js/hanoi/js/jquery.js"></script>
-    <script src="js/hanoi/js/jquery-ui.js"></script>
-    <script src="js/hanoi/js/jquery-ui.min.js"></script>
-    <script src="js/hanoi/js/jquery-2.1.1.js"></script>
-    <script src="js/hanoi/js/hanoi-core.js"></script>
-    <script src="js/hanoi/js/hanoi-view.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/jquery-ui.js"></script>
+    <script src="./js/jquery-ui.min.js"></script>
+    <script src="./js/jquery-2.1.1.js"></script>
+    <script src="./js/hanoi-core.js"></script>
+    <script src="./js/hanoi-view.js"></script>
 
     <div class="towers">
     </div>
