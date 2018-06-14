@@ -3,10 +3,13 @@
     window.Hanoi = {};
   }
 
-  var View = Hanoi.View = function (game, $el) {
+  var View = Hanoi.View = function (game, $el, nrOfDisks, endFunction) {
     this.selectedColumn = null;
     this.game = game;
     this.$el = $el;
+    this.endFunction = endFunction;
+    this.nrOfMoves = 0;
+    this.nrOfDisks = nrOfDisks;
     this.render();
     this.bindEvents();
   };
@@ -18,7 +21,7 @@
       var $tower = $("<div data-col='" + j + "' class='tower'></div>");
       for (var i = 0; i < col.length; i++) {
         var $disk = $("<div class='disk'></div>");
-        $disk.css("width", (col[i] * 50) + "px");
+        $disk.css("width", (col[i] * 30) + "px");
         $tower.append($disk);
       }
       $(this.$el).append($tower);
@@ -37,15 +40,23 @@
     if (this.selectedColumn === null) {
       this.selectedColumn = $tower.data('col');
       $tower.children().last().attr('class', 'h-disk');
-      $tower.children().last().effect('shake', 100);
     } else {
       var newCol = $tower.data('col');
       if (this.game.move(this.selectedColumn, newCol)) {
         this.render();
+        this.nrOfMoves += 1;
+        //console.log("nrOfMoves = " + this.nrOfMoves);
         if (this.game.isWon()) {
           alert('You won!');
-          this.game = new Hanoi.Game();
-          this.render();
+
+          var minNrOfMoves = Math.pow(2, this.nrOfDisks) - 1;
+          //console.log("minNrOfMoves = " + minNrOfMoves)
+          var result = (3*minNrOfMoves - (this.nrOfMoves)) / (2*minNrOfMoves);
+          //console.log("result = " + result)
+          if (result < 0)
+            result = 0;
+          //window.alert('result = ' + result);
+          this.endFunction(result);
         }
       } else {
         this.render();
@@ -54,7 +65,5 @@
       this.selectedColumn = null;
     }
   };
-
-
 
 })();

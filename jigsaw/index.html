@@ -9,7 +9,7 @@
     <!--[if lt IE 9]><script src="./js/respond.min.js"></script><![endif]-->
     <style>
         body { margin: 0; padding: 0; border: 0; min-width: 320px; color: #777; }
-        html, button, input, select, textarea, .pure-g [class *= "pure-u"] { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1.02em; }
+        html, button, input, select, textarea, .pure-g [class *= "pure-u"] { font-family: Tahoma; font-size: 1.02em; }
         p { line-height: 1.5; }
         ul { padding: 0 0 0 20px; }
 
@@ -42,7 +42,7 @@
 
         var xhr = new XMLHttpRequest();
          var vNick = '';
-        var vAge = 3;
+        var vAge = -1;
         var vGroup = ''
         xhr.open('GET', '/jigsaw/config', true);
         xhr.onreadystatechange = function() {
@@ -52,38 +52,31 @@
                 vNick = obj['nick']
                 vAge = obj['age']
                 vGroup = obj['group']
-                window.alert('group = ' + obj['group']);
-                window.alert('nick = ' + obj['nick']);
-                window.alert('age = ' + obj['age']);
             }
         }
         xhr.send(null);
 
-        function someFun() {
-            window.alert('here1');
+        function endFun() {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/jigsaw/end', true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.send(JSON.stringify({result: 0.57, group: vGroup, nick: vNick, age: vAge}));
+            xhr.send(JSON.stringify({result: 1, group: vGroup, nick: vNick, age: vAge}));
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    window.alert(xhr.responseText);
+                    //window.alert(xhr.responseText);
                     window.location.replace(xhr.responseText);
                 }
             }
-            window.alert('here2');
         }
-
-
         <!--setTimeout(function(){-->
             <!--myFunction();-->
         <!--}, 1000);-->
     </script>
 </head>
 <body>
-    <div style="max-width:900px;padding:0 10px;margin:40px auto;text-align:center">
-        <h1>snapPuzzle</h1>
-        <button onclick="someFun()">End Game</button>
+    <div style="padding:0 10px;margin:20px auto;text-align:center;">
+        <h2>snapPuzzle</h2>
+        <h5> Ułoż układankę! Dopasuj części do fragmentów rozjaśnionego obrazka.</h5>
     </div>
     <div id="puzzle-containment" style="border-top: 1px solid #eee;border-bottom:1px solid #eee;background:#fafafa;margin:30px 0;padding:10px;text-align:center">
         <div class="pure-g" style="max-width:1280px;margin:auto">
@@ -94,11 +87,6 @@
                 <div id="pile" style="margin:10px">
                     <div id="puzzle_solved" style="display:none;text-align:center;position:relative;top:25%">
                         <h2 style="margin:0 0 20px">Well done!</h2>
-                        <a class="pure-button button-lg restart-puzzle" data-grid="3">Restart Puzzle</a>
-                        <br><br>
-                        <a href="#" class="restart-puzzle" data-grid="5">5x5</a>
-                        &nbsp; <a href="#" class="restart-puzzle" data-grid="7">7x7</a>
-                        &nbsp; <a href="#" class="restart-puzzle" data-grid="10">10x10</a>
                     </div>
                 </div>
             </div>
@@ -112,7 +100,7 @@
         // enables touch support for jQuery UI
         !function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
 
-        function start_puzzle(x){
+        function start_puzzle(x, y){
             $('#puzzle_solved').hide();
             $('#source_image').snapPuzzle({
                 rows: x, columns: x,
@@ -121,26 +109,32 @@
                 onComplete: function(){
                     $('#source_image').fadeOut(150).fadeIn();
                     $('#puzzle_solved').show();
+                    endFun();
                 }
             });
         }
 
         $(function(){
+            while(vAge == -1) {}
+                if (vAge <= 5) {x = 3; y = 2;}
+                else if (vAge <= 9) {x = 3; y = 3;}
+                else if (vAge <= 13) {x = 4; y  = 3;}
+                else if (vAge <= 17) {x = 4; y = 4;}
+                else {x = 5; y = 4;}
+                //console.log("x = " + x + ": y = " + y);
             $('#pile').height($('#source_image').height());
-            start_puzzle(3);
+            start_puzzle(x, y);
 
-            $('.restart-puzzle').click(function(){
+            /*$('.restart-puzzle').click(function(){
                 $('#source_image').snapPuzzle('destroy');
                 start_puzzle($(this).data('grid'));
-            });
+            });*/
 
             $(window).resize(function(){
                 $('#pile').height($('#source_image').height());
                 $('#source_image').snapPuzzle('refresh');
             });
         });
-
-
         
     </script>
 </body>

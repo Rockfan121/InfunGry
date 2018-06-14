@@ -1,8 +1,14 @@
+body{
+  font-family: Tahoma;
+  color: #777; 
+}
+
 .tower {
   float: left;
   width: 200px;
   height: 200px;
-  background: #ffff66;
+  background-image: url("../img/towerBg.png");
+  background-color: #ffff66;
   margin: 10px;
   transform: rotate(180deg);
   border-style: dotted;
