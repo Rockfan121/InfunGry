@@ -12,7 +12,6 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
   var self = this;
 
   document.querySelector(".best-container").textContent = movesLeft;
-  document.querySelector(".max-score").textContent = "Max score: ".concat(max_score);
   movesLeft -= 1;
 
   window.requestAnimationFrame(function () {
@@ -118,7 +117,7 @@ HTMLActuator.prototype.updateScore = function (score) {
   var difference = score - this.score;
   this.score = score;
 
-  this.scoreContainer.textContent = this.score;
+  this.scoreContainer.textContent = this.score + " / " + max_score;
 
   if (difference > 0) {
     var addition = document.createElement("div");
@@ -141,8 +140,8 @@ HTMLActuator.prototype.message = function (won) {
     ga("send", "event", "game", "end", type, this.score);
   }
 
-  this.messageContainer.classList.add(type);
-  this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+  //this.messageContainer.classList.add(type);
+  //this.messageContainer.getElementsByTagName("p")[0].textContent = message;
 
   this.clearContainer(this.sharingContainer);
   this.sharingContainer.appendChild(this.scoreTweetButton());
@@ -151,8 +150,8 @@ HTMLActuator.prototype.message = function (won) {
 
 HTMLActuator.prototype.clearMessage = function () {
   // IE only takes one value to remove at a time.
-  this.messageContainer.classList.remove("game-won");
-  this.messageContainer.classList.remove("game-over");
+  //this.messageContainer.classList.remove("game-won");
+  //this.messageContainer.classList.remove("game-over");
 };
 
 HTMLActuator.prototype.scoreTweetButton = function () {

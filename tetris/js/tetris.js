@@ -322,7 +322,7 @@ var tetris = {
     // if (local_best_score_tetris != null) {
     //   tetris.best_score_tetris = local_best_score_tetris;
     // }
-    tetris.best_zone.innerHTML = max_score;
+    //tetris.best_zone.innerHTML = max_score;
 
 
 
@@ -472,7 +472,7 @@ var tetris = {
     tetris.lines = 0;
     tetris.lines_zone.innerHTML = tetris.lines;
     tetris.score = 0;
-    tetris.score_zone.innerHTML = tetris.score;
+    tetris.score_zone.innerHTML = tetris.score + " / " + max_score;
     tetris.count_single = 0;
     tetris.count_double = 0;
     tetris.count_triple = 0;
@@ -646,7 +646,7 @@ var tetris = {
           tetris.message('Tetris');
           break;
       };
-      tetris.score_zone.innerHTML = tetris.score;
+      tetris.score_zone.innerHTML = tetris.score + " / " + max_score;
 
       setTimeout(function(){
         // fall blocks
@@ -699,8 +699,8 @@ var tetris = {
     // html += '<a class="button" id="bt_play_again">New game</a>';
     // html += '<a class="button" id="bt_main_menu">Main menu</a>';
     // html += '<a class="button" target="_blank" href="http://www.baptistebrunet.com/games/">Play more games</a>';
-    tetris.overlay.innerHTML = html;
-    tetris.overlay.style.display = 'block';
+    //tetris.overlay.innerHTML = html;
+    //tetris.overlay.style.display = 'block';
 
     //document.getElementById('bt_resume').addEventListener('click', function() {
     //  tetris.resume_game();
@@ -736,8 +736,8 @@ var tetris = {
     // html += '<a class="button" id="bt_play_again">Play again</a>';
     // html += '<a class="button" id="bt_main_menu">Main menu</a>';
     // html += '<a class="button" target="_blank" href="http://www.baptistebrunet.com/games/">Play more games</a>';
-    tetris.overlay.innerHTML = html;
-    tetris.overlay.style.display = 'block';
+    //tetris.overlay.innerHTML = html;
+    //tetris.overlay.style.display = 'block';
 
     // document.getElementById('bt_play_again').addEventListener('click', function() {
     //   tetris.init_game();
@@ -757,7 +757,7 @@ var tetris = {
       tetris.update_block();
       if (tetris.max_speed_mode) {
         tetris.score += 1;
-        tetris.score_zone.innerHTML = tetris.score;
+        tetris.score_zone.innerHTML = tetris.score + " / " + max_score;
       };
       tetris.fall_timeout = setTimeout(function(){
         tetris.fall_block();
@@ -1025,7 +1025,7 @@ var tetris = {
     }
     tetris.block_y += kick_y - 1;
     tetris.score += kick_y - 1;
-    tetris.score_zone.innerHTML = tetris.score;
+    tetris.score_zone.innerHTML = tetris.score + " / " + max_score;
     tetris.update_block();
     tetris.shake();
     tetris.lock_block();

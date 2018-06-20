@@ -8,7 +8,7 @@
     <script>
         var group, nick, age;
         var max_score;
-        max_score = 1000.0;
+        max_score = 1000;
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/tetris/config', true);
         xhr.onreadystatechange = function() {
@@ -22,7 +22,7 @@
                 //window.alert('group = ' + obj['group']);
                 //window.alert('nick = ' + obj['nick']);
                 //window.alert('age = ' + obj['age']);
-				max_score = parseInt(obj['config'].max_score);
+				//max_score = parseInt(obj['config'].max_score);
             }
         }
         xhr.send(null);
@@ -30,7 +30,7 @@
         function onFinished(score) {
             //window.alert('here1');
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/game/end', true);
+            xhr.open('POST', '/tetris/end', true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhr.send(JSON.stringify({result: score, group: group, nick: nick, age: age}));
             xhr.onreadystatechange = function() {
@@ -48,17 +48,17 @@
     <div id="page_home" class="page" style="display: none;">
       <h1>Tetris JS</h1>
       <div class="controls">
-        <div>Keyboard controls :</div>
+        <div>Sterowanie:</div>
         <input name="switch_mode" id="bt_type_a" class="on" type="radio">
-        <label for="bt_type_a" class="on">Up = rotate</label>
+        <label for="bt_type_a" class="on">Strzałka do góry - rotacja</label>
         <input name="switch_mode" id="bt_type_b" class="" type="radio">
-        <label for="bt_type_b" class="">Up = drop</label>
+        <label for="bt_type_b" class="">Strzałka do góry - upuść</label>
       </div>
       <div class="touch_controls">
-        <p>Tap to rotate</p>
-        <p>Swipe down to drop</p>
+        <p>Dotknij aby obrócić</p>
+        <p>Przesuń w dół aby upuścić</p>
       </div>
-      <a class="button" href="#_" id="bt_new_game">New game</a>
+      <a class="button" href="#_" id="bt_new_game">Nowa gra</a>
     </div>
     <div id="page_game" class="page" style="display: block;">
       <div id="game_col" style="width: 336px; height: 604.8px;">
@@ -72,11 +72,11 @@
         <div id="next_zone" style="width: 134.4px; height: 134.4px;"><div style="position: relative; display: inline-block; width: 134.4px; height: 134.4px;" class="kineticjs-content"><canvas style="padding: 0px; margin: 0px; border: 0px none; background: transparent none repeat scroll 0% 0%; position: absolute; top: 0px; left: 0px; width: 134.4px; height: 134.4px;" width="336" height="336"></canvas></div></div>
         <!-- <a class="button" href="#_" id="bt_pause">Pause</a> -->
         <div class="best_wrapper">
-          Max score: <span id="best_zone"></span>
+          <span id="best_zone"></span>
         </div>
         <div id="score_zone">0</div>
         <div class="lines_wrapper">
-          Lines: <span id="lines_zone">0</span>
+          Linie: <span id="lines_zone">0</span>
         </div>
       </div>
     </div>

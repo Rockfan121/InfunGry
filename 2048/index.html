@@ -50,7 +50,7 @@
         var group, nick, age;
 
         var max_score;
-        max_score = 1200.0;
+        max_score = 3000.0;
 
 
 
@@ -80,7 +80,7 @@
         function onFinished(score) {
             //window.alert('here1');
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/game/end', true);
+            xhr.open('POST', '/2048/end', true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhr.send(JSON.stringify({result: score, group: group, nick: nick, age: age}));
             xhr.onreadystatechange = function() {
@@ -104,10 +104,10 @@
       </div>
     </div>
 
-    <!-- <div class="above-game">
-      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
-      <a class="restart-button">New Game</a> -->
-    <!-- </div> -->
+    <div class="above-game">
+      <p class="game-intro">Połącz liczby z tą samą wartością!</strong></p>
+      <!--a class="restart-button">New Game</a-->
+    </div>
 
 
 
@@ -146,8 +146,6 @@
       <div class="tile-container"><div class="tile tile-2 tile-position-1-4 tile-new"><div class="tile-inner">2</div></div><div class="tile tile-2 tile-position-4-1 tile-new"><div class="tile-inner">2</div></div></div>
     </div>
 
-    <p class="max-score">
-    </p>
     <!-- <hr> -->
     <!-- <p>
     <strong class="important">Note:</strong> The game on <a href="http://git.io/2048">this site</a> is the original version of 2048. Apps for <a href="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048" target="_blank">Android</a> are also available. Other versions are derivatives or fakes, and should be used with caution.

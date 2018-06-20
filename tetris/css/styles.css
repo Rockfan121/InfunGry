@@ -2,7 +2,7 @@
 html {
   margin:0;
   padding:0;
-  background: #ddd;
+  background: #FFFFFF;
 }
 body {
   margin: 0;
@@ -131,7 +131,7 @@ h1 {
 #game_col {
   float: left;
   width: 70%;
-  background: #000;
+  background: #F0F0F0;
   position: relative;
 }
 #game_zone {
@@ -237,7 +237,7 @@ h1 {
 }
 #score_zone {
   margin: 5px 0;
-  font-size: 32px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
 }
@@ -339,7 +339,7 @@ h1 {
     font-size: 14px;
   }
   #score_zone {
-    font-size: 24px;
+    font-size: 18px;
   }
   .lines_wrapper {
     font-size: 14px;
