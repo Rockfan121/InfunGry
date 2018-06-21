@@ -1,6 +1,12 @@
 body{
   font-family: Tahoma;
   color: #777; 
+  width: 100%;
+}
+
+.towers {
+  margin: 10px auto;
+  max-width: 680px;
 }
 
 .tower {

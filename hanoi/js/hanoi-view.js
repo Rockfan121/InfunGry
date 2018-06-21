@@ -45,17 +45,12 @@
       if (this.game.move(this.selectedColumn, newCol)) {
         this.render();
         this.nrOfMoves += 1;
-        //console.log("nrOfMoves = " + this.nrOfMoves);
         if (this.game.isWon()) {
-          alert('You won!');
-
+          //alert('You won!');
           var minNrOfMoves = Math.pow(2, this.nrOfDisks) - 1;
-          //console.log("minNrOfMoves = " + minNrOfMoves)
           var result = (3*minNrOfMoves - (this.nrOfMoves)) / (2*minNrOfMoves);
-          //console.log("result = " + result)
           if (result < 0)
             result = 0;
-          //window.alert('result = ' + result);
           this.endFunction(result);
         }
       } else {
